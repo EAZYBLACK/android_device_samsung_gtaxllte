@@ -17,13 +17,13 @@
 # Inherit from gtaxl-common
 include device/samsung/gtaxl-common/BoardConfigCommon.mk
 
-LOCAL_PATH := device/samsung/gtaxlwifi
+LOCAL_PATH := device/samsung/gtaxllte
 
 # Kernel
-TARGET_KERNEL_CONFIG := lineage-gtaxlwifi_defconfig
+TARGET_KERNEL_CONFIG := lineage-gtaxllte_defconfig
 
 # OTA assertions
-TARGET_OTA_ASSERT_DEVICE := gtaxlwifi,gtaxllte
+TARGET_OTA_ASSERT_DEVICE := gtaxllte
 
 # Partitions
 BOARD_SYSTEMIMAGE_PARTITION_SIZE   := 3145728000
@@ -37,3 +37,10 @@ VENDOR_SECURITY_PATCH := 2020-09-01
 
 # SELinux
 BOARD_VENDOR_SEPOLICY_DIRS += $(LOCAL_PATH)/sepolicy
+
+# Properties
+TARGET_VENDOR_PROP += $(DEVICE_PATH)/vendor.prop
+
+# RIL
+BOARD_PROVIDES_LIBRIL := true
+ENABLE_VENDOR_RIL_SERVICE := true
