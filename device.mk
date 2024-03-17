@@ -21,12 +21,21 @@ DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
 # Ramdisk
 PRODUCT_PACKAGES += \
-    init.target.rc
+    init.baseband.rc \
+    init.gps.rc \
+    init.vendor.rilchip.rc \
+    init.vendor.rilcommon.rc
+
+# RIL
+PRODUCT_PACKAGES += \
+    android.hardware.radio@1.4:64 \
+    android.hardware.radio.config@1.2:64 \
+    android.hardware.radio.deprecated@1.0:64
 
 # GPS
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/gps/gps.conf:$(TARGET_COPY_OUT_SYSTEM)/etc/gps.conf \
-    $(LOCAL_PATH)/configs/gps/gps.xml:$(TARGET_COPY_OUT_VENDOR)/etc/gps.xml
+    $(LOCAL_PATH)/configs/gps/gps.cfg:$(TARGET_COPY_OUT_VENDOR)/etc/gnss/gps.cfg \
+    $(LOCAL_PATH)/configs/gps/gps.conf:$(TARGET_COPY_OUT_SYSTEM)/etc/gps.conf
 
 PRODUCT_PACKAGES += \
     android.hardware.gnss@1.0-impl \
@@ -40,11 +49,22 @@ PRODUCT_PACKAGES += \
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH)
 
-# Properties
--include $(LOCAL_PATH)/system_prop.mk
+# Vibration
+PRODUCT_PACKAGES += \
+    android.hardware.vibrator@1.0-impl \
+    android.hardware.vibrator@1.0-service
+
+# Permissions
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.software.sip.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.sip.xml \
+    frameworks/native/data/etc/android.software.sip.voip.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.sip.voip.xml \
+    frameworks/native/data/etc/android.hardware.telephony.gsm.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.telephony.gsm.xml
+
+
+
 
 # Inherit from gtaxl-common
 $(call inherit-product, device/samsung/gtaxl-common/common.mk)
 
 # Call the proprietary setup
-$(call inherit-product, vendor/samsung/gtaxlwifi/gtaxlwifi-vendor.mk)
+$(call inherit-product, vendor/samsung/gtaxllte/gtaxllte-vendor.mk)
